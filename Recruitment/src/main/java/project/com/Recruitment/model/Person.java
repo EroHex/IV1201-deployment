@@ -3,36 +3,32 @@ package project.com.Recruitment.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "person") // måste matcha table namn
+@Table(name = "person") //ska vara samma som table i databasen
 public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long person_id;
-    private String name;
-    private String surname;
+    private Long id;
 
-    public Long getPerson_id() {
-        return person_id;
+    @Column(nullable = false, unique = true)
+    private String username;
+
+    @Column(nullable = false)
+    private String password; 
+
+    public Person() {}
+
+    public Person(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
-    public void setPerson_id(Long person_id) {
-        this.person_id = person_id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public String getName() {
-        return name;
-    }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 }

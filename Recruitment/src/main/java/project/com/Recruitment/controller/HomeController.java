@@ -16,6 +16,7 @@ public class HomeController {
     @GetMapping("/")
     public String homePage(Model model) {
         // letar efter person med id 2
+        Iterable <Person> hi = personRepository.findAll();
         Person person = personRepository.findById(2L).get();
         model.addAttribute("person", person);
         return "index"; // hittar filen i src/main/resources/templates/index.html
