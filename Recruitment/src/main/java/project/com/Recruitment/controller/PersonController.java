@@ -12,9 +12,11 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
-    // login via login.html filen 
+    // login via login.html filen
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<String> login(
+            @RequestParam String username,
+            @RequestParam String password) {
         boolean validUser = personService.validateUser(username, password); //skicka till service för databas hantering
         if (validUser) {
             return ResponseEntity.ok("Login successful for " + username);
@@ -25,10 +27,16 @@ public class PersonController {
 
     // register account via register.html filen
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<String> register(
+            @RequestParam String name,
+            @RequestParam String surname,
+            @RequestParam String personalNumber,
+            @RequestParam String email,
+            @RequestParam String username,
+            @RequestParam String password) {
         try {
-            personService.registerPerson(username, password); //skicka till service för databas hantering
-            return ResponseEntity.ok("Person Registered Successfully");
+            personService.registerPerson(name, surname, personalNumber, email, username, password); //skicka till service för databas hantering
+            return ResponseEntity.ok("User has been registered successfully");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
