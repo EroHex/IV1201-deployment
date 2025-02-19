@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.com.Recruitment.model.Person;
 import project.com.Recruitment.repository.PersonRepository;
+import project.com.Recruitment.dto.RegisterDTO;
 
 import java.util.Optional;
 
@@ -40,12 +41,12 @@ public class PersonService {
     }
 
     @Transactional
-    public Person registerPerson(String username, String password) {
-        if (personRepository.findByUsername(username).isPresent()) {
+    public Person registerPerson(RegisterDTO registerDTO) {
+        if (personRepository.findByUsername(registerDTO.getUsername()).isPresent()) {
             throw new RuntimeException("Username already exists!");
         }
         // String hashedPassword = passwordEncoder.encode(password);
-        Person newPerson = new Person(username, password);
+        Person newPerson = new Person(registerDTO.getUsername(), registerDTO.getPassword());
         return personRepository.save(newPerson);
     }
 }
