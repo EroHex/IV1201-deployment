@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Applications</title>
+</head>
+<body>
+    <h1>Applications</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <!-- <th>Person ID</th> -->
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Available From</th>
+                <th>Available To</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="app : ${applications}">
+                <!-- <td th:text="${app.id}"></td> -->
+                <td th:text="${app.name}"></td>
+                <td th:text="${app.surname}"></td>
+                <td>
+                    <ul>
+                        <li th:each="availability : ${app.availabilities}" th:text="${availability.fromDate}"></li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li th:each="availability : ${app.availabilities}" th:text="${availability.toDate}"></li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

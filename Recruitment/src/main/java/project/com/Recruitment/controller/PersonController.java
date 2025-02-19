@@ -5,14 +5,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.com.Recruitment.service.PersonService;
 
+/**
+ * Controller for Person
+ * Should be changed so as to not use static html files
+ */
+
 @RestController
-// @RequestMapping("/person")
 public class PersonController {
 
     @Autowired
     private PersonService personService;
 
-    // login via login.html filen 
+    /**
+     * Handles login
+     * @param username the username provided by the user
+     * @param password the password provided by the user
+     * @return message for if user was logged in or not
+     */
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
         boolean validUser = personService.validateUser(username, password); //skicka till service för databas hantering
@@ -23,7 +32,12 @@ public class PersonController {
         }
     }
 
-    // register account via register.html filen
+    /**
+     * Handles registration
+     * @param username the username provided by the user
+     * @param password the password provided by the user
+     * @return message for if user was registered in or not
+     */
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestParam String username, @RequestParam String password) {
         try {

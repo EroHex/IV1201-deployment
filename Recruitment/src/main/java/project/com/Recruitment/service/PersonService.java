@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.com.Recruitment.model.Person;
 import project.com.Recruitment.repository.PersonRepository;
-
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PersonService {
@@ -18,6 +17,13 @@ public class PersonService {
     // @Autowired
     // private BCryptPasswordEncoder passwordEncoder; 
 
+
+    /**
+     * Method to check whether user exist, used in login
+     * @param username the username provided by the user
+     * @param password the password provided by the user
+     * @return True if both username and password match a person in database
+     */
     public boolean validateUser(String username, String password) {
         Optional<Person> person = personRepository.findByUsername(username);
 
@@ -39,6 +45,16 @@ public class PersonService {
         }
     }
 
+    /**
+     * Method to register a new user
+     * Checks if username is already in use, if so throw Exception
+     * Otherwise add user to database
+     * @param username the username provided by the user
+     * @param password the password provided by the user
+     * @return  saves the new user into person table in database
+     * @todo    Add additional info to be added, e.g. name, surname
+     * @todo    Password encryption
+     */
     @Transactional
     public Person registerPerson(String username, String password) {
         if (personRepository.findByUsername(username).isPresent()) {
@@ -47,5 +63,9 @@ public class PersonService {
         // String hashedPassword = passwordEncoder.encode(password);
         Person newPerson = new Person(username, password);
         return personRepository.save(newPerson);
+    }
+
+    public List<Person> getApplications() {
+        return personRepository.findByRoleId(2); // Only fetch persons with role_id = 2
     }
 }
