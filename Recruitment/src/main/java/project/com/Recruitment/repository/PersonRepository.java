@@ -18,5 +18,5 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
      * @param role_id   1 or 2, 1 = recruiter, 2 = applicants
      * @return  List of persons with param role_id
      */
-    List<Person> findByRoleId(int role_id);
+    List<Person> findByRoleId(Long role_id);
 }

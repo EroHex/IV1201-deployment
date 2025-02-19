@@ -13,6 +13,7 @@
                 <th>Surname</th>
                 <th>Available From</th>
                 <th>Available To</th>
+                <th>Competence in</th>
             </tr>
         </thead>
         <tbody>
@@ -28,6 +29,11 @@
                 <td>
                     <ul>
                         <li th:each="availability : ${app.availabilities}" th:text="${availability.toDate}"></li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li th:each="competence : ${app.competenceProfile}" th:text="${competence.competenceId}"></li>
                     </ul>
                 </td>
             </tr>

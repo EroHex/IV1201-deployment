@@ -25,10 +25,13 @@ public class Person {
     private String surname;
 
     @Column(name = "role_id")
-    private Integer roleId;
+    private Long roleId;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     private List<Availability> availabilities;
+
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+    private List<CompetenceProfile> competenceProfile;
 
     public Person() {}
 
@@ -56,9 +59,12 @@ public class Person {
     public String getSurname() { return surname; }
     public void setSurname(String surname) { this.surname = surname; }
 
-    public int getRoleId() { return roleId; }
-    public void setRoleId(int roleId) { this.roleId = roleId; }
+    public Long getRoleId() { return roleId; }
+    public void setRoleId(Long roleId) { this.roleId = roleId; }
 
     public List<Availability> getAvailabilities() { return availabilities; }
     public void setAvailabilities(List<Availability> availabilities) { this.availabilities = availabilities; }
+
+    public List<CompetenceProfile> getCompetenceProfile() { return competenceProfile; }
+    public void setCompetenceProfile(List<CompetenceProfile> competenceProfile) { this.competenceProfile = competenceProfile; }
 }

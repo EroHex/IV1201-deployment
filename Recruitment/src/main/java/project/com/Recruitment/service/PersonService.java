@@ -65,7 +65,12 @@ public class PersonService {
         return personRepository.save(newPerson);
     }
 
+    /**
+     * Method to retrieve all applications
+     * 2L is for filtering role_id to only show applicants 
+     * @return a list of persons with their applications
+     */
     public List<Person> getApplications() {
-        return personRepository.findByRoleId(2); // Only fetch persons with role_id = 2
+        return personRepository.findByRoleId(2L); // Only fetch persons with role_id = 2
     }
 }
