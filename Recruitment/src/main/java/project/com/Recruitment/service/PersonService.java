@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import project.com.Recruitment.model.Person;
 import project.com.Recruitment.repository.PersonRepository;
 import project.com.Recruitment.dto.RegisterDTO;
+import project.com.Recruitment.dto.LoginDTO;
 
 import java.util.Optional;
 
@@ -19,23 +20,23 @@ public class PersonService {
     // @Autowired
     // private BCryptPasswordEncoder passwordEncoder; 
 
-    public boolean validateUser(String username, String password) {
-        Optional<Person> person = personRepository.findByUsername(username);
+    public boolean validateUser(LoginDTO loginDTO) {
+        Optional<Person> person = personRepository.findByUsername(loginDTO.getUsername());
 
         if (person.isPresent()) {
             String storedPassword = person.get().getPassword();
             System.out.println("Stored password: " + storedPassword); //visas bara i cmd för debugging
-            System.out.println("Entered password: " + password);
+            System.out.println("Entered password: " + loginDTO.getPassword());
 
-            if (storedPassword.equals(password)) {
-                System.out.println("Password match for person: " + username);
+            if (storedPassword.equals(loginDTO.getPassword())) {
+                System.out.println("Password match for person: " + loginDTO.getUsername());
                 return true;
             } else {
-                System.out.println("Incorrect password for person: " + username);
+                System.out.println("Incorrect password for person: " + loginDTO.getUsername());
                 return false;
             }
         } else {
-            System.out.println("No person found with username: " + username);
+            System.out.println("No person found with username: " + loginDTO.getUsername());
             return false;
         }
     }
