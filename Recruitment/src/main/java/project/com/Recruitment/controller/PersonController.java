@@ -59,6 +59,13 @@ public class PersonController {
             return "login"; // Return to login page with error message
         }
     }
+
+    @PostMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); // Invalidate the session to log out the user
+        return "redirect:/login"; // Redirect to login page after logout
+    }
+    
     // register account via register.html filen
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @ModelAttribute RegisterDTO registerDTO, BindingResult bindingResult) {

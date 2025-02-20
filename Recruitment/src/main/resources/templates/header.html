@@ -8,7 +8,11 @@
 <body>
     <header>
         <div>
-            <span th:if="${session.loggedInUser != null}">Logged in as: <span th:text="${session.loggedInUser.username}"></span></span>
+            <span th:if="${session.loggedInUser != null}">Logged in as: <span th:text="${session.loggedInUser.username}"></span>
+                <form th:action="@{/logout}" method="post" style="display:inline;">
+                    <button type="submit">Logout</button>
+                </form>
+            </span>
             <span th:if="${session.loggedInUser == null}">Not logged in</span>
         </div>
     </header>
