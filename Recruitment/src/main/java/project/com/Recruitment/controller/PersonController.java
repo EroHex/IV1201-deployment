@@ -2,6 +2,8 @@ package project.com.Recruitment.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import project.com.Recruitment.service.PersonService;
 import project.com.Recruitment.dto.RegisterDTO;
@@ -9,7 +11,11 @@ import project.com.Recruitment.dto.LoginDTO;
 import jakarta.validation.*;
 import org.springframework.validation.*;
 
-@RestController
+import project.com.Recruitment.model.Person;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import jakarta.servlet.http.HttpSession;
+@Controller
 // @RequestMapping("/person")
 public class PersonController {
 
@@ -17,19 +23,42 @@ public class PersonController {
     private PersonService personService;
 
     // login via login.html filen 
+    
+    @GetMapping("/")
+    public String homePage(Model model, HttpSession session) {
+        if (session.getAttribute("loggedInUser") == null) {
+            return "redirect:/login"; // hittar filen i src/main/resources/templates/login.html
+        }
+        return "index"; // hittar filen i src/main/resources/templates/index.html
+    }
+
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login"; // hittar filen i src/main/resources/templates/login.html
+    }
+
+    @GetMapping("/register")
+    public String registerPage() {
+        return "register"; // hittar filen i src/main/resources/templates/register.html
+    }
+
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @ModelAttribute LoginDTO loginDTO, BindingResult bindingResult) {
+    public String login(@Valid @ModelAttribute LoginDTO loginDTO, BindingResult bindingResult, HttpSession session, Model model) {
         if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body("Validation failed: " + bindingResult.getAllErrors());
+            model.addAttribute("error", "Validation failed: " + bindingResult.getAllErrors());
+            return "login";
         }
         boolean validUser = personService.validateUser(loginDTO); //skicka till service för databas hantering
         if (validUser) {
-            return ResponseEntity.ok("Login successful for " + loginDTO.getUsername());
+            Person person = personService.getPersonByUsername(loginDTO.getUsername());
+            session.setAttribute("loggedInUser", person);
+            System.out.println("User logged in: " + person);
+            return "redirect:/"; // Redirect to home page after successful login
         } else {
-            return ResponseEntity.status(401).body("Invalid credentials");
+            model.addAttribute("error", "Invalid username or password. Please try again.");
+            return "login"; // Return to login page with error message
         }
     }
-
     // register account via register.html filen
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @ModelAttribute RegisterDTO registerDTO, BindingResult bindingResult) {
@@ -45,3 +74,5 @@ public class PersonController {
         }
     }
 }
+
+

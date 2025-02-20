@@ -1,6 +1,7 @@
 package project.com.Recruitment.service;
 
 import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import project.com.Recruitment.dto.LoginDTO;
 import java.util.Optional;
 
 @Service
-public class PersonService {
+public class PersonService{
     
     @Autowired
     private PersonRepository personRepository;
@@ -41,13 +42,19 @@ public class PersonService {
         }
     }
 
+    public Person getPersonByUsername(String username) {
+        Optional<Person> person = personRepository.findByUsername(username);
+        return person.orElse(null);
+    }
+    
+
     @Transactional
     public Person registerPerson(RegisterDTO registerDTO) {
         if (personRepository.findByUsername(registerDTO.getUsername()).isPresent()) {
             throw new RuntimeException("Username already exists!");
         }
         // String hashedPassword = passwordEncoder.encode(password);
-        Person newPerson = new Person(registerDTO.getUsername(), registerDTO.getPassword());
+        Person newPerson = new Person(registerDTO.getUsername(), registerDTO.getPassword(), 1);
         return personRepository.save(newPerson);
     }
 }
