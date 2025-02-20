@@ -19,29 +19,5 @@
 
         <button type="submit">Register</button>
     </form>
-
-    <p id="message"></p>
-
-    <script>
-        document.getElementById("registerForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
-
-            fetch("http://localhost:8080/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
-            })
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("message").textContent = data;
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-        });
-    </script>
 </body>
 </html>

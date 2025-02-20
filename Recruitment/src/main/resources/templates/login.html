@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+        <span style="color: red;" th:if="${#fields.hasErrors('loginDTO.*')}">
+            <li th:each="error : ${#fields.errors('loginDTO.*')}" th:text="${error}"></li>
+        </span>
+        <form th:action="@{/login}" th:object="${loginDTO}" method="post">
+            <p>Username:</p>
+            <input type="text" th:field="*{username}" required><br>
+    
+            <p>Password:</p>
+            <input type="password" th:field="*{password}" required><br>
+    
+            <button type="submit">Login</button>
+            </span>
+        </form>
+</body>
+</html>
