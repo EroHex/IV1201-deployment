@@ -20,33 +20,28 @@ public class PersonController {
 
     // login via login.html filen 
     @PostMapping("/login")
-    public String login(@Valid LoginDTO loginDTO, BindingResult bindingResult, Model model) {
+    public ResponseEntity<String> login(@Valid @ModelAttribute LoginDTO loginDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "login";
+            return ResponseEntity.badRequest().body("Validation failed: " + bindingResult.getAllErrors());
         }
         boolean validUser = personService.validateUser(loginDTO); //skicka till service för databas hantering
         if (validUser) {
-            return "redirect:/";
+            return ResponseEntity.ok("Login successful for " + loginDTO.getUsername());
         } else {
-            return "login";     //add exception handling
+            return ResponseEntity.status(401).body("Invalid credentials");
         }
-    }
-    @GetMapping("/login")
-    public String showLoginPage(Model model) {
-        model.addAttribute("loginDTO", new LoginDTO());
-        return "login"; // Returns the register.html page
     }
 
     // register account via register.html filen
     @PostMapping("/register")
-    public String register(@Valid RegisterDTO registerDTO, BindingResult bindingResult, Model model) {
+    public String register(@Valid RegisterDTO registerDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "register";
         }
 
         try {
             personService.registerPerson(registerDTO); //skicka till service för databas hantering
-            return "redirect:/login";
+            return "register";
         } catch (RuntimeException e) {
             return "register";
         }
