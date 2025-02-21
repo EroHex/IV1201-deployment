@@ -70,7 +70,6 @@ public class PersonService{
     }
 
     public Optional<Person> getPersonById(Long id){
-        System.out.println(id);
         return personRepository.findByPersonId(id);
     }
 }
