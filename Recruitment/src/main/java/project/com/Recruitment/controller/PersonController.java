@@ -2,6 +2,7 @@ package project.com.Recruitment.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import project.com.Recruitment.service.PersonService;
 
@@ -10,7 +11,7 @@ import project.com.Recruitment.service.PersonService;
  * Should be changed so as to not use static html files
  */
 
-@RestController
+@Controller
 public class PersonController {
 
     @Autowired

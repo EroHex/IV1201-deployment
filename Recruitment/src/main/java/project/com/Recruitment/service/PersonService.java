@@ -70,7 +70,12 @@ public class PersonService {
      * 2L is for filtering role_id to only show applicants 
      * @return a list of persons with their applications
      */
-    public List<Person> getApplications() {
+    public List<Person> getAllApplications() {
         return personRepository.findByRoleId(2L); // Only fetch persons with role_id = 2
+    }
+
+    public Optional<Person> getPersonById(Long id){
+        System.out.println(id);
+        return personRepository.findByPersonId(id);
     }
 }

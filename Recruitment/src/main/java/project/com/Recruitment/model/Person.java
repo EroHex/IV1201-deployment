@@ -27,10 +27,10 @@ public class Person {
     @Column(name = "role_id")
     private Long roleId;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Availability> availabilities;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<CompetenceProfile> competenceProfile;
 
     public Person() {}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Application Info</title>
+</head>
+<body>
+    <h1>ApplicationInfo Details</h1>
+    
+    <div th:if="${applicationInfo != null}">
+        <p><strong>Name:</strong> <span th:text="${applicationInfo.name}"></span></p>
+        <p><strong>Surname:</strong> <span th:text="${applicationInfo.surname}"></span></p>
+        
+        <h2>Availability</h2>
+        <ul>
+            <li th:each="availability : ${applicationInfo.availabilities}">
+                From: <span th:text="${availability.fromDate}"></span> 
+                To: <span th:text="${availability.toDate}"></span>
+            </li>
+        </ul>
+        
+        <h2>Competences</h2>
+        <ul>
+            <li th:each="competence : ${applicationInfo.competenceProfile}" th:text="${competence.competenceId}"></li>
+        </ul>
+    </div>
+    
+    <div th:unless="${applicationInfo != null}">
+        <p>applicationInfo not found.</p>
+    </div>
+    
+    <a href="/listApplications">Back to applicationInfos</a>
+
+    
+</body>
+</html>

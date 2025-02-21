@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/applications")
+@RequestMapping("/listApplications")
 public class ListApplicationsController {
+
     @Autowired
     private PersonService personService;
 
@@ -23,7 +24,7 @@ public class ListApplicationsController {
      */
     @GetMapping
     public String showApplications(Model model) {
-        List<Person> applications = personService.getApplications();
+        List<Person> applications = personService.getAllApplications();
         model.addAttribute("applications", applications);
         return "listApplication"; // This corresponds to the HTML file in templates
     }
