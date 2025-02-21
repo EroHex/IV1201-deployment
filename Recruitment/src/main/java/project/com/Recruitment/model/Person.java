@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "person") //ska vara samma som table i databasen
-public class Person {
+public class Person{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,11 +18,17 @@ public class Person {
     @Column(nullable = false)
     private String password; 
 
-    // @Column(nullable = false)
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false)
     private String name;
 
-    // @Column(nullable = false)
+    @Column(nullable = false)
     private String surname;
+
+    @Column(nullable = false, unique = true)
+    private String pnr;
 
     @Column(name = "role_id")
     private Long roleId;
@@ -33,11 +39,17 @@ public class Person {
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<CompetenceProfile> competenceProfile;
 
+
     public Person() {}
 
-    public Person(String username, String password) {
+    public Person(String username, String password, String email, String name, String surname, String pnr, Long roleId) {
         this.username = username;
         this.password = password;
+        this.email = email;
+        this.name = name;
+        this.surname = surname;
+        this.pnr = pnr;
+        this.roleId = roleId;
     }
 
     /**
@@ -53,11 +65,17 @@ public class Person {
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
 
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
     public String getSurname() { return surname; }
     public void setSurname(String surname) { this.surname = surname; }
+
+    public String getPnr() { return pnr; }
+    public void setPnr(String pnr) { this.pnr = pnr; }
 
     public Long getRoleId() { return roleId; }
     public void setRoleId(Long roleId) { this.roleId = roleId; }
