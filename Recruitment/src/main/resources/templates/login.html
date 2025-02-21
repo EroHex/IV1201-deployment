@@ -8,18 +8,19 @@
 <body>
     <div th:insert="~{header :: header}"></div>
     <h2>Login</h2>
-    <form th:action="@{/login}" method="post" id="loginForm">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br><br>
-        <button type="submit">Login</button>
-    </form>
+    <span style="color: red;" th:if="${#fields.hasErrors('loginDTO.*')}">
+        <li th:each="error : ${#fields.errors('loginDTO.*')}" th:text="${error}"></li>
+    </span>
+    <form th:action="@{/login}" th:object="${loginDTO}" method="post" id="loginForm">
+        <p>Username:</p>
+        <input type="text" th:field="*{username}" required><br>
 
-    <div th:if="${error}">
-        <p style="color: red;" th:text="${error}"></p>
-    </div>
+        <p>Password:</p>
+        <input type="password" th:field="*{password}" required><br>
+
+        <button type="submit">Login</button>
+        <button onclick="window.location.href='/register'">Go to register page</button>
+        </span>
+    </form>
 </body>
 </html>
