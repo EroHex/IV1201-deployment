@@ -3,43 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>register</title>
+    <title>Register</title>
 </head>
 <body>
     <div th:insert="header :: header"></div>
-    <h2>register</h2>
-    <form id="registerForm">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br><br>
-        <button type="submit">register</button>
+    <h2>Register</h2>
+    <span style="color: red;" th:if="${#fields.hasErrors('registerDTO.*')}">
+        <li th:each="error : ${#fields.errors('registerDTO.*')}" th:text="${error}"></li>
+    </span>
+    <form th:action="@{/register}" th:object="${registerDTO}" method="post">
+        <p>Username:</p>
+        <input type="text" th:field="*{username}" required><br>
+
+        <p>Password:</p>
+        <input type="password" th:field="*{password}" required><br>
+
+        <button type="submit">Register</button>
     </form>
-
-    <p id="message"></p>
-
-    <script>
-        document.getElementById("registerForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
-
-            fetch("/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
-            })
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("message").textContent = data;
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-        });
-    </script>
 </body>
 </html>
