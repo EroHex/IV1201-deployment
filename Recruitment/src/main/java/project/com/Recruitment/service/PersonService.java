@@ -56,7 +56,7 @@ public class PersonService{
         if (personRepository.findByPnr(registerDTO.getPnr()).isPresent()) {
             throw new RuntimeException("That personal number is already in use!");
         }
-        Person newPerson = new Person(registerDTO.getUsername(), registerDTO.getPassword(), registerDTO.getEmail(), registerDTO.getName(), registerDTO.getSurname(), registerDTO.getPnr(), 1);
+        Person newPerson = new Person(registerDTO.getUsername(), registerDTO.getPassword(), registerDTO.getEmail(), registerDTO.getName(), registerDTO.getSurname(), registerDTO.getPnr(), 1L);
         return personRepository.save(newPerson);
     }
 
