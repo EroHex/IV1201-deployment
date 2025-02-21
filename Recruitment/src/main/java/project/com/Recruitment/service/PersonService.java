@@ -3,7 +3,6 @@ package project.com.Recruitment.service;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import project.com.Recruitment.model.Person;
 import project.com.Recruitment.repository.PersonRepository;
@@ -17,9 +16,6 @@ public class PersonService{
     
     @Autowired
     private PersonRepository personRepository;
-
-    // @Autowired
-    // private BCryptPasswordEncoder passwordEncoder; 
 
     public boolean validateUser(LoginDTO loginDTO) {
         Optional<Person> person = personRepository.findByUsername(loginDTO.getUsername());
@@ -53,8 +49,13 @@ public class PersonService{
         if (personRepository.findByUsername(registerDTO.getUsername()).isPresent()) {
             throw new RuntimeException("Username already exists!");
         }
-        // String hashedPassword = passwordEncoder.encode(password);
-        Person newPerson = new Person(registerDTO.getUsername(), registerDTO.getPassword(), 1);
+        if (personRepository.findByEmail(registerDTO.getEmail()).isPresent()) {
+            throw new RuntimeException("That email aldready has an account associated with it!");
+        }
+        if (personRepository.findByPnr(registerDTO.getPnr()).isPresent()) {
+            throw new RuntimeException("That personal number is already in use!");
+        }
+        Person newPerson = new Person(registerDTO.getUsername(), registerDTO.getPassword(), registerDTO.getEmail(), registerDTO.getName(), registerDTO.getSurname(), registerDTO.getPnr(), 1);
         return personRepository.save(newPerson);
     }
 }

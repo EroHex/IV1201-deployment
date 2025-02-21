@@ -12,13 +12,29 @@ public class RegisterDTO {
     @Size(min = 4, max = 50, message = "Password must be between 4 and 50 characters long")
     private String password;
 
+    private String email;
+
+    private String name;
+
+    private String surname;
+
+    private String pnr;
+
+    private int role_id; // används inte för tillfället då vi sätter alla nya users till role_id 1 i PersonService
+
     public RegisterDTO() {
         
     }
 
-    public RegisterDTO(String username, String password) {
+    public RegisterDTO(String username, String password, String email, String name, String surname, String pnr, int role_id) {
         this.username = username;
         this.password = password;
+        this.email = email;
+        this.name = name;
+        this.surname = surname;
+        this.pnr = pnr;
+        this.role_id = role_id;
+
     }
 
     public String getUsername() {
@@ -36,4 +52,45 @@ public class RegisterDTO {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getPnr() {
+        return pnr;
+    }
+
+    public void setPnr(String pnr) {
+        this.pnr = pnr;
+    }
+
+    public int getRole_id() {
+        return role_id;
+    }
+
+    public void setRole_id(int role_id) {
+        this.role_id = role_id;
+    }
+
 }
