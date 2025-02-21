@@ -69,6 +69,12 @@ public class PersonService{
         return personRepository.findByRoleId(2L); // Only fetch persons with role_id = 2
     }
 
+    /**
+     * Method to retrieve person by their specified id, used when getting a single application based on the search url
+     * could also be used for set retrieval if an id is specified
+     * @param id the id of the person to search for
+     * @return a person object or empty Optional object if one couldn't be found
+     */
     public Optional<Person> getPersonById(Long id){
         return personRepository.findByPersonId(id);
     }

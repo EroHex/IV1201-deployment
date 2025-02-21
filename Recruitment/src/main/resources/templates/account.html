@@ -13,10 +13,10 @@
     <p>Person Number: <span th:text="${session.loggedInUser.pnr}">Person number missing</span></p>
     <p>Role: <span th:text="${session.loggedInUser.roleId}">Role missing</span></p>
     <br>
-    <div th:if="${session.loggedInUser.roleId == 2}">
-        <button onclick="window.location.href='/manage-applications'">Go to Manage Application page</button>
-    </div>
     <div th:if="${session.loggedInUser.roleId == 1}">
+        <button onclick="window.location.href='/listApplications'">Go to the Applications page</button>
+    </div>
+    <div th:if="${session.loggedInUser.roleId == 2}">
         <button onclick="window.location.href='/create-application'">Go to Create Application Page</button>
     </div>
 </body>
