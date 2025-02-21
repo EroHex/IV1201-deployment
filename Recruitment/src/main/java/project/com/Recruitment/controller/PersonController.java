@@ -33,17 +33,19 @@ public class PersonController {
     }
 
     @GetMapping("/login")
-    public String loginPage() {
+    public String loginPage(Model model) {
+        model.addAttribute("loginDTO", new LoginDTO());
         return "login"; // hittar filen i src/main/resources/templates/login.html
     }
 
     @GetMapping("/register")
-    public String registerPage() {
+    public String registerPage(Model model) {
+        model.addAttribute("registerDTO", new RegisterDTO());
         return "register"; // hittar filen i src/main/resources/templates/register.html
     }
 
     @PostMapping("/login")
-    public String login(@Valid @ModelAttribute LoginDTO loginDTO, BindingResult bindingResult, HttpSession session, Model model) {
+    public String login(@Valid LoginDTO loginDTO, BindingResult bindingResult, HttpSession session, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("error", "Validation failed: " + bindingResult.getAllErrors());
             return "login";
@@ -68,16 +70,16 @@ public class PersonController {
     
     // register account via register.html filen
     @PostMapping("/register")
-    public ResponseEntity<String> register(@Valid @ModelAttribute RegisterDTO registerDTO, BindingResult bindingResult) {
+    public String register(@Valid RegisterDTO registerDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body("Validation failed: " + bindingResult.getAllErrors());
+            return "register";
         }
 
         try {
             personService.registerPerson(registerDTO); //skicka till service för databas hantering
-            return ResponseEntity.ok("Person Registered Successfully");
+            return "redirect:/login";
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return "register";      // add error handling
         }
     }
 }
