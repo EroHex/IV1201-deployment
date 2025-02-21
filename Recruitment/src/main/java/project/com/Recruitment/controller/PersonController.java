@@ -33,7 +33,8 @@ public class PersonController {
     }
 
     @GetMapping("/login")
-    public String loginPage() {
+    public String loginPage(Model model) {
+        model.addAttribute("loginDTO", new LoginDTO());
         return "login"; // hittar filen i src/main/resources/templates/login.html
     }
 
