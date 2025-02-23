@@ -21,6 +21,11 @@ public class LoginDTO {
         this.password = password;
     }
 
+
+    /**
+     * Get and Set methods for each property
+     * @return  the corresponding property
+     */
     public String getUsername() {
         return username; 
     }

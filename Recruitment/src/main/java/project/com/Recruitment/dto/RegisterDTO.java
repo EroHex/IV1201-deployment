@@ -25,7 +25,7 @@ public class RegisterDTO {
     public RegisterDTO() {
         
     }
-
+    
     public RegisterDTO(String username, String password, String email, String name, String surname, String pnr, int role_id) {
         this.username = username;
         this.password = password;
@@ -37,6 +37,10 @@ public class RegisterDTO {
 
     }
 
+    /**
+     * Get and Set methods for each property
+     * @return  the corresponding property
+     */
     public String getUsername() {
         return username;
     }

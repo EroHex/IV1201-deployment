@@ -18,6 +18,12 @@ public class PersonService{
     @Autowired
     private PersonRepository personRepository;
 
+
+    /**
+     * Method to validate a user
+     * @param loginDTO the login data
+     * @return true if the user is validated, false otherwise
+     */
     public boolean validateUser(LoginDTO loginDTO) {
         Optional<Person> person = personRepository.findByUsername(loginDTO.getUsername());
 
@@ -39,11 +45,22 @@ public class PersonService{
         }
     }
 
+    /**
+     * Method to get a person by username
+     * @param username the username to search for
+     * @return the person if found, otherwise null
+     */
+
     public Person getPersonByUsername(String username) {
         Optional<Person> person = personRepository.findByUsername(username);
         return person.orElse(null);
     }
     
+    /**
+     * Method to register a new person
+     * @param registerDTO the data to register
+     * @return the person that was registered
+     */
 
     @Transactional
     public Person registerPerson(RegisterDTO registerDTO) {

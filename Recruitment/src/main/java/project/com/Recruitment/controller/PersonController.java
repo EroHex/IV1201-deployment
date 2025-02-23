@@ -30,11 +30,19 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
-    // login via login.html filen 
+    /**
+     * Method to check if a user is logged in
+     * @param session session to check
+     * @return true if the user is logged in, false otherwise
+     */
     private boolean isLoggedIn(HttpSession session) {
         return session.getAttribute("loggedInUser") != null;
     }
-
+    /**
+     * Method to check if the logged in user is an admin
+     * @param session session to check
+     * @return true if the logged in user is an admin, false otherwise
+     */
     private boolean isAdmin(HttpSession session) {
         Person person = (Person) session.getAttribute("loggedInUser");
         if (person.getRoleId() == 2) {
@@ -42,7 +50,12 @@ public class PersonController {
         }
         return false;
     }
-
+    /**
+     * No page specified, redirect to default page
+     * @param model
+     * @param session
+     * @return The login view found in /resources/templates if user is not logged in, otherwise the profile view
+     */
     @GetMapping(DEFAULT_PAGE_URL)
     public String homePage(Model model, HttpSession session) {
         if (!(isLoggedIn(session))) {
@@ -50,7 +63,12 @@ public class PersonController {
         }
         return "redirect:" + DEFAULT_PAGE_URL + PROFILE_PAGE_URL;
     }
-
+    /**
+     * Method to show the profile page of the logged in user
+     * @param model
+     * @param session
+     * @return The account view found in /resources/templates
+     */
     @GetMapping(DEFAULT_PAGE_URL + PROFILE_PAGE_URL)
     public String profilePage(Model model, HttpSession session) {
         if (!(isLoggedIn(session))) {
@@ -58,13 +76,21 @@ public class PersonController {
         }
         return PROFILE_PAGE_URL;
     }
-
+    /**
+     * Method to show the login page
+     * @param model
+     * @return The login view found in /resources/templates
+     */
     @GetMapping(DEFAULT_PAGE_URL + LOGIN_PAGE_URL)
     public String loginPage(Model model) {
         model.addAttribute("loginDTO", new LoginDTO());
         return LOGIN_PAGE_URL; // hittar filen i src/main/resources/templates/login.html
     }
-
+    /**
+     * Method to show the register page
+     * @param model
+     * @return The register view found in /resources/templates
+     */
     @GetMapping(DEFAULT_PAGE_URL + REGISTER_PAGE_URL)
     public String registerPage(Model model) {
         model.addAttribute("registerDTO", new RegisterDTO());
@@ -95,13 +121,11 @@ public class PersonController {
         return "redirect:" + DEFAULT_PAGE_URL + LOGOUT_PAGE_URL; // Redirect to login page after logout
     }
     
-    // register account via register.html filen
     @PostMapping(DEFAULT_PAGE_URL + REGISTER_PAGE_URL)
     public String register(@Valid RegisterDTO registerDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return REGISTER_PAGE_URL;
         }
-
         try {
             personService.registerPerson(registerDTO); //skicka till service för databas hantering
             return "redirect:" + DEFAULT_PAGE_URL + LOGIN_PAGE_URL; // Redirect to login page after successful registration
@@ -109,7 +133,12 @@ public class PersonController {
             return REGISTER_PAGE_URL;      // add error handling
         }
     }
-
+    /**
+     * Method to show the manage applications page
+     * @param model 
+     * @param session 
+     * @return The manage-applications view found in /resources/templates
+     */
     @GetMapping(DEFAULT_PAGE_URL + MANAGEAPPLICATIONS_PAGE_URL)
     public String manageApplications(Model model, HttpSession session) {
         if (!(isLoggedIn(session))) {
@@ -120,7 +149,12 @@ public class PersonController {
         }
         return MANAGEAPPLICATIONS_PAGE_URL;
     }
-
+    /**
+     * Method to show the create application page
+     * @param model
+     * @param session
+     * @return The create-application view found in /resources/templates
+     */
     @GetMapping(DEFAULT_PAGE_URL + CREATEAPPLICATION_PAGE_URL)
     public String createApplication(Model model, HttpSession session) {
         if (!(isLoggedIn(session))) {
