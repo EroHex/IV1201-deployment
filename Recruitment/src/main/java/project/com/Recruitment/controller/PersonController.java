@@ -1,5 +1,7 @@
 package project.com.Recruitment.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -26,6 +28,7 @@ public class PersonController {
     static final String PROFILE_PAGE_URL = "account";
     static final String MANAGEAPPLICATIONS_PAGE_URL = "manage-applications";
     static final String CREATEAPPLICATION_PAGE_URL = "create-application";
+    static final String REVIEWAPPLICATION_PAGE_URL = "review-application";
 
     @Autowired
     private PersonService personService;
@@ -37,7 +40,7 @@ public class PersonController {
 
     private boolean isAdmin(HttpSession session) {
         Person person = (Person) session.getAttribute("loggedInUser");
-        if (person.getRoleId() == 2) {
+        if (person.getRoleId() == 1) {
             return true;
         }
         return false;
@@ -110,15 +113,46 @@ public class PersonController {
         }
     }
 
+    /**
+     * Retrieve all applications and add them to the model
+     * Person object with data other tables included
+     * @param model
+     * @return the corresponding html page 
+     */
     @GetMapping(DEFAULT_PAGE_URL + MANAGEAPPLICATIONS_PAGE_URL)
     public String manageApplications(Model model, HttpSession session) {
+        System.out.println("Is logged in: " + isLoggedIn(session));
         if (!(isLoggedIn(session))) {
             return "redirect:" + DEFAULT_PAGE_URL + LOGIN_PAGE_URL;
         }
+        System.out.println("Is admin: " + isAdmin(session));
         if (!(isAdmin(session))) {
             return "redirect:" + DEFAULT_PAGE_URL;
         }
+        List<Person> applications = personService.getAllApplications();
+        model.addAttribute("applications", applications);
         return MANAGEAPPLICATIONS_PAGE_URL;
+    }
+
+    /**
+     * Retrieve a single application based on the id clicked on by recruiter
+     * @param id the personId of the clicked on application, should probably be changed
+     * @param model model passed to spring for html showing
+     * @return the corresponding html page
+     */
+    @GetMapping(DEFAULT_PAGE_URL + REVIEWAPPLICATION_PAGE_URL)
+    public String reviewApplication(@RequestParam(value = "id", required = false) Long id, Model model, HttpSession session) {
+        System.out.println("Is logged in: " + isLoggedIn(session));
+        if (!(isLoggedIn(session))) {
+            return "redirect:" + DEFAULT_PAGE_URL + LOGIN_PAGE_URL;
+        }
+        System.out.println("Is admin: " + isAdmin(session));
+        if (!(isAdmin(session))) {
+            return "redirect:" + DEFAULT_PAGE_URL;
+        }
+        Person reviewApplication = personService.getPersonById(id).get();
+        model.addAttribute("reviewApplication", reviewApplication);
+        return REVIEWAPPLICATION_PAGE_URL;
     }
 
     @GetMapping(DEFAULT_PAGE_URL + CREATEAPPLICATION_PAGE_URL)

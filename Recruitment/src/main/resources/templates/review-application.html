@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Application Info</title>
+</head>
+<body>
+    <h1>ApplicationInfo Details</h1>
+    
+    <div th:if="${reviewApplication != null}">
+        <p><strong>Name:</strong> <span th:text="${reviewApplication.name}"></span></p>
+        <p><strong>Surname:</strong> <span th:text="${reviewApplication.surname}"></span></p>
+        
+        <h2>Availability</h2>
+        <ul>
+            <li th:each="availability : ${reviewApplication.availabilities}">
+                From: <span th:text="${availability.fromDate}"></span> 
+                To: <span th:text="${availability.toDate}"></span>
+            </li>
+        </ul>
+        
+        <h2>Competences</h2>
+        <ul>
+            <li th:each="competence : ${reviewApplication.competenceProfile}" th:text="${competence.competenceId}"></li>
+        </ul>
+    </div>
+    
+    <div th:unless="${reviewApplication != null}">
+        <p>applicationInfo not found.</p>
+    </div>
+    
+    <button type="submit">accept</button>
+    <button type="submit">deny</button>
+
+    <button onclick="window.location.href='/manage-applications'">Go back to the Applications page</button>
+
+    
+</body>
+</html>

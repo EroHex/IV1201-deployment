@@ -1,11 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Manage-Applications</title>
+    <title>Manage Applications</title>
 </head>
 <body>
-    <div th:insert="~{header :: header}"></div>
-
-    <h1>Manage Applications here: </h1>
+    <h1>Applications</h1>
+    <button onclick="window.location.href='/account'">Go to the account page</button>
+    <table border="1">
+        <thead>
+            <tr>
+                <!-- <th>Person ID</th> -->
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Available From</th>
+                <th>Available To</th>
+                <th>Competence in</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="app : ${applications}" th:attr="onclick='window.location.href=\'/review-application?id=' + ${app.personId} + '\''" style="cursor: pointer;">
+                <!-- <td th:text="${app.id}"></td> -->
+                <td th:text="${app.name}"></td>
+                <td th:text="${app.surname}"></td>
+                <td>
+                    <ul>
+                        <li th:each="availability : ${app.availabilities}" th:text="${availability.fromDate}"></li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li th:each="availability : ${app.availabilities}" th:text="${availability.toDate}"></li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li th:each="competence : ${app.competenceProfile}" th:text="${competence.competenceId}"></li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>
