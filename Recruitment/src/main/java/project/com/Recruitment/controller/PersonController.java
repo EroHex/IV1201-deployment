@@ -121,7 +121,7 @@ public class PersonController {
     @PostMapping(DEFAULT_PAGE_URL + LOGOUT_PAGE_URL)
     public String logout(HttpSession session) {
         session.invalidate(); // Invalidate the session to log out the user
-        return "redirect:" + DEFAULT_PAGE_URL + LOGOUT_PAGE_URL; // Redirect to login page after logout
+        return "redirect:" + DEFAULT_PAGE_URL + LOGIN_PAGE_URL; // Redirect to login page after logout
     }
     
     @PostMapping(DEFAULT_PAGE_URL + REGISTER_PAGE_URL)
