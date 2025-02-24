@@ -12,7 +12,7 @@ import project.com.Recruitment.dto.RegisterDTO;
 import project.com.Recruitment.dto.LoginDTO;
 import jakarta.validation.*;
 import org.springframework.validation.*;
-
+import project.com.Recruitment.exceptions.IllegalRegistrationException;
 import project.com.Recruitment.model.Person;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -125,16 +125,12 @@ public class PersonController {
     }
     
     @PostMapping(DEFAULT_PAGE_URL + REGISTER_PAGE_URL)
-    public String register(@Valid RegisterDTO registerDTO, BindingResult bindingResult) {
+    public String register(@Valid RegisterDTO registerDTO, BindingResult bindingResult, Model model) throws IllegalRegistrationException {
         if (bindingResult.hasErrors()) {
             return REGISTER_PAGE_URL;
         }
-        try {
-            personService.registerPerson(registerDTO); //skicka till service för databas hantering
-            return "redirect:" + DEFAULT_PAGE_URL + LOGIN_PAGE_URL; // Redirect to login page after successful registration
-        } catch (RuntimeException e) {
-            return REGISTER_PAGE_URL;      // add error handling
-        }
+        personService.registerPerson(registerDTO); //skicka till service för databas hantering
+        return "redirect:" + DEFAULT_PAGE_URL + LOGIN_PAGE_URL; // Redirect to login page after successful registration
     }
     /**
      * Method to show the manage applications page
@@ -191,6 +187,15 @@ public class PersonController {
         }
         return CREATEAPPLICATION_PAGE_URL;
     }
+    /**
+     * Method to test generic error handling
+     * @throws RuntimeException to show generic error page
+     */
+    @GetMapping("/test-error")
+    public String testError() {
+        throw new RuntimeException("This is a little test exception, hihihi");
+    }
 }
 
+    
 

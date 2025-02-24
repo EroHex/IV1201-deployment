@@ -11,6 +11,11 @@
     <span style="color: red;" th:if="${#fields.hasErrors('registerDTO.*')}">
         <li th:each="error : ${#fields.errors('registerDTO.*')}" th:text="${error}"></li>
     </span>
+    <p th:if="${errorType == 'generic'}" th:text="${errorMsg}"></p>
+    <p th:if="${errorType == 'usernameError'}" th:text="${errorMsg}"></p>
+    <p th:if="${errorType == 'emailError'}" th:text="${errorMsg}"></p>
+    <p th:if="${errorType == 'psnError'}" th:text="${errorMsg}"></p>
+    
     <form th:action="@{/register}" th:object="${registerDTO}" method="post">
         <label for="username">Username:</label>
         <input type="text" th:field="*{username}" required>

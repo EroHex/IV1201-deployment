@@ -9,6 +9,7 @@ import project.com.Recruitment.repository.PersonRepository;
 import java.util.*;
 import project.com.Recruitment.dto.RegisterDTO;
 import project.com.Recruitment.dto.LoginDTO;
+import project.com.Recruitment.exceptions.*;
 
 import java.util.Optional;
 
@@ -60,18 +61,19 @@ public class PersonService{
      * Method to register a new person
      * @param registerDTO the data to register
      * @return the person that was registered
-     */
-
-    @Transactional
-    public Person registerPerson(RegisterDTO registerDTO) {
+     * @throws IllegalRegistrationException if there exists duplicate data
+    */
+     
+         @Transactional
+         public Person registerPerson(RegisterDTO registerDTO) throws IllegalRegistrationException {
         if (personRepository.findByUsername(registerDTO.getUsername()).isPresent()) {
-            throw new RuntimeException("Username already exists!");
+            throw new IllegalRegistrationException("Username already exists!");
         }
         if (personRepository.findByEmail(registerDTO.getEmail()).isPresent()) {
-            throw new RuntimeException("That email aldready has an account associated with it!");
+            throw new IllegalRegistrationException("That email aldready has an account associated with it!");
         }
         if (personRepository.findByPnr(registerDTO.getPnr()).isPresent()) {
-            throw new RuntimeException("That personal number is already in use!");
+            throw new IllegalRegistrationException("That personal number is already in use!");
         }
         Person newPerson = new Person(registerDTO.getUsername(), registerDTO.getPassword(), registerDTO.getEmail(), registerDTO.getName(), registerDTO.getSurname(), registerDTO.getPnr(), 1L);
         return personRepository.save(newPerson);
