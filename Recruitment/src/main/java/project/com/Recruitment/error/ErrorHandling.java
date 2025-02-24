@@ -18,6 +18,7 @@ public class ErrorHandling{
     public static final String USERNAME_ERROR = "usernameError";
     public static final String EMAIL_ERROR = "emailError";
     public static final String PSN_ERROR = "psnError";
+    public static final String REGISTER_DTO = "registerDTO";
 
     public static final String ERROR_URL = "error";
     public static final String REGISTER_URL = "register";
@@ -27,16 +28,17 @@ public class ErrorHandling{
     public String exceptionHandler(IllegalRegistrationException e, Model model) {
         if (e.getMessage().toLowerCase().contains("username")) {
             model.addAttribute(ERROR_TYPE, USERNAME_ERROR);
-            model.addAttribute("registerDTO", new RegisterDTO());
+            
         } else if (e.getMessage().toLowerCase().contains("email")) {
             model.addAttribute(ERROR_TYPE, EMAIL_ERROR);
-            model.addAttribute("registerDTO", new RegisterDTO());
+            
         } else if (e.getMessage().toLowerCase().contains("personal")) {
             model.addAttribute(ERROR_TYPE, PSN_ERROR);
-            model.addAttribute("registerDTO", new RegisterDTO());
+
         } else {
             model.addAttribute(ERROR_TYPE, GENERIC_ERROR);
         }
+        model.addAttribute(REGISTER_DTO, new RegisterDTO());
         model.addAttribute(ERROR_MSG, e.getMessage());
         return REGISTER_URL;
     }
