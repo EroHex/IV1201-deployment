@@ -1,11 +1,32 @@
 package project.com.Recruitment.repository;
 
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.JpaRepository;
 import project.com.Recruitment.model.Person;
-import org.springframework.data.jpa.repository.JpaRepository; //Read the documentation more closely, perhaps it says here why it only accepts Long
+import java.util.*;
 
-public interface PersonRepository extends JpaRepository<Person, Long>{ //This won't let me use int. Switching to Long. Could be beneficial so that id can be null, too. Turns out that's how JpaRepository works.
-    //Since the user will probably identify themselves via their email. Also, if admin searches for applicant, probably easiest with email
-    Person findByEmail(String email);
-    Person findByUsername(String username);
+public interface PersonRepository extends JpaRepository<Person, Long> {
+    
+    /**
+     * Finds and returns a person with username
+     * @param username  the username to search for
+     * @return  Person if any is found otherwise optional object which is empty
+     */
+    Optional<Person> findByUsername(String username); 
 
+    /**
+     * Finds and returns a list of all persons with role_id
+     * @param roleId   1 or 2, 1 = recruiter, 2 = applicants
+     * @return  List of persons with param role_id
+     */
+    List<Person> findByRoleId(Long roleId);
+
+    /**
+     * Finds and returns a person object for specific application info
+     * @param personId   id to identify application by
+     * @return  Person if any is found otherwise optional object which is empty
+     */
+    Optional<Person> findByPersonId(Long personId); 
+    Optional<Person> findByEmail(String email);
+    Optional<Person> findByPnr(String pnr);
 }

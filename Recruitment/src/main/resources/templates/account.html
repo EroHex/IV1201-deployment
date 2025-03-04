@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Account Details</title>
+</head>
+<body>
+    <div th:insert="~{header :: header}"></div>
+    <h1>Account Details</h1>
+    <p>Username: <span th:text="${session.loggedInUser.username}">Username missing</span></p>
+    <p>Email: <span th:text="${session.loggedInUser.email}">Email missing</span></p>
+    <p>First Name: <span th:text="${session.loggedInUser.name}">First name missing</span></p>
+    <p>Last Name: <span th:text="${session.loggedInUser.surname}">Last name missing</span></p>
+    <p>Person Number: <span th:text="${session.loggedInUser.pnr}">Person number missing</span></p>
+    <p>Role: <span th:text="${session.loggedInUser.roleId}">Role missing</span></p>
+    <br>
+    <div th:if="${session.loggedInUser.roleId == 1}">
+        <button onclick="window.location.href='/manage-applications'">Go to Manage Applications page</button>
+    </div>
+    <div th:if="${session.loggedInUser.roleId == 2}">
+        <button onclick="window.location.href='/create-application'">Go to Create Application Page</button>
+    </div>
+</body>
+</html>
