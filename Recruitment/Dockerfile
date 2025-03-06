@@ -8,8 +8,9 @@ COPY src ./src
 
 RUN mvn clean package -DskipTests
 
-# copy the built JAR file from target folder
-COPY target/*.jar app.jar
+WORKDIR /app
+
+COPY --from=build /app/target/*.jar app.jar
 
 EXPOSE 8080
 
