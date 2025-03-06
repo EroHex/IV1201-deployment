@@ -1,4 +1,4 @@
-FROM maven:3.8.6-openjdk-17-slim
+FROM maven:3.8.5-openjdk-17-slim
 
 # set the working directory to container
 WORKDIR /app
