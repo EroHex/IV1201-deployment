@@ -3,7 +3,12 @@ FROM openjdk:17-jdk-slim
 # set the working directory to container
 WORKDIR /app
 
-# copy the built JAR file from target folder, run 'mvn clean package -DskipTests' locally in root to create JAR file
+COPY pom.xml .
+COPY src ./src
+
+RUN mvn clean package -DskipTests
+
+# copy the built JAR file from target folder
 COPY target/*.jar app.jar
 
 EXPOSE 8080
