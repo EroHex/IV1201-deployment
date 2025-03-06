@@ -1,6 +1,8 @@
 package project.com.Recruitment.service;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Isolation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,8 +12,6 @@ import java.util.*;
 import project.com.Recruitment.dto.RegisterDTO;
 import project.com.Recruitment.dto.LoginDTO;
 import project.com.Recruitment.exceptions.*;
-
-import java.util.Optional;
 
 @Service
 public class PersonService{
@@ -25,6 +25,7 @@ public class PersonService{
      * @param loginDTO the login data
      * @return true if the user is validated, false otherwise
      */
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
     public boolean validateUser(LoginDTO loginDTO) {
         Optional<Person> person = personRepository.findByUsername(loginDTO.getUsername());
 
@@ -51,7 +52,7 @@ public class PersonService{
      * @param username the username to search for
      * @return the person if found, otherwise null
      */
-
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
     public Person getPersonByUsername(String username) {
         Optional<Person> person = personRepository.findByUsername(username);
         return person.orElse(null);
@@ -63,9 +64,9 @@ public class PersonService{
      * @return the person that was registered
      * @throws IllegalRegistrationException if there exists duplicate data
     */
-     
-         @Transactional
-         public Person registerPerson(RegisterDTO registerDTO) throws IllegalRegistrationException {
+    
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
+    public Person registerPerson(RegisterDTO registerDTO) throws IllegalRegistrationException {
         if (personRepository.findByUsername(registerDTO.getUsername()).isPresent()) {
             throw new IllegalRegistrationException("Username already exists!");
         }
@@ -84,6 +85,7 @@ public class PersonService{
      * 2L is for filtering role_id to only show applicants 
      * @return a list of persons with their applications
      */
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
     public List<Person> getAllApplications() {
         return personRepository.findByRoleId(2L); // Only fetch persons with role_id = 2
     }
@@ -94,6 +96,7 @@ public class PersonService{
      * @param id the id of the person to search for
      * @return a person object or empty Optional object if one couldn't be found
      */
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
     public Optional<Person> getPersonById(Long id){
         return personRepository.findByPersonId(id);
     }
